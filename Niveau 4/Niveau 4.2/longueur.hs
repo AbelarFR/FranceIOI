@@ -10,13 +10,14 @@
 import Control.Monad
 import Data.List
 import Data.Array
+import System.TimeIt
 
 main :: IO ()
-main = do
+main = timeIt $ do
     n <- readLn :: IO Int
-    let arbre0 = array (0, n) [(i, [] ) | i <- [0..n]]
     liste <- fmap (zip [1..n] . map read . words) getLine :: IO [(Int, Int)]
-    let arbre = foldr (mettreDansBoite) arbre0 liste
+    let arbre0 = array (0, n) [(i, [] ) | i <- [0..n]]
+        arbre = foldr (mettreDansBoite) arbre0 liste
     print $ calculerProfondeur arbre (arbre!0)
     
 mettreDansBoite :: (Int, Int) -> Array Int [Int] -> Array Int [Int]
