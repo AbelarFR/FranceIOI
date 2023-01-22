@@ -11,16 +11,20 @@ import time
 
 def main():
     nbObjets = int(input())
-    objets = list(map(int, input().split()))
+    contenants = list(map(int, input().split()))
 
     lMax = 0
-    for i in range(nbObjets):
-        l = 1
-        contenant = objets[i]
-        while contenant > 0:
-            l += 1
-            contenant = objets[contenant-1]
-        if l > lMax : lMax = l
+    encore = True
+    while encore:
+        encore = False
+        contenants2 = [0]*nbObjets
+        for i in range(nbObjets):
+            if contenants[i] > 0:
+                if contenants[contenants[i]-1] > 0:
+                    contenants2[i] = contenants[i]
+                encore = True
+        lMax += 1
+        contenants = contenants2
 
     print(lMax)
 
@@ -33,4 +37,10 @@ if __name__ == '__main__':
 """
 8
 3 3 7 3 6 7 0 0
+---
+4
+0 1 2 3
+---
+5
+2 3 4 5 0
 """
