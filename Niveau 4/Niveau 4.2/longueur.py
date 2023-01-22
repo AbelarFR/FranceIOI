@@ -13,20 +13,17 @@ def main():
     nbObjets = int(input())
     contenants = list(map(int, input().split()))
 
-    lMax = 0
     encore = True
+    longueurs = [1]*nbObjets
     while encore:
         encore = False
-        contenants2 = [0]*nbObjets
         for i in range(nbObjets):
             if contenants[i] > 0:
-                if contenants[contenants[i]-1] > 0:
-                    contenants2[i] = contenants[i]
+                longueurs[i] += longueurs[contenants[i]-1]
+                contenants[i] = contenants[contenants[i]-1]
                 encore = True
-        lMax += 1
-        contenants = contenants2
 
-    print(lMax)
+    print(max(longueurs))
 
 if __name__ == '__main__':
     start = time.time()
