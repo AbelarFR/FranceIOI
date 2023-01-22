@@ -9,19 +9,17 @@
 
 import time
 
-def calculerLongueurChemin(objets, i):
-    if objets[i] == 0:
-        return 1
-    else:
-        return 1 + calculerLongueurChemin(objets, objets[i]-1)
-
 def main():
     nbObjets = int(input())
     objets = list(map(int, input().split()))
 
     lMax = 0
     for i in range(nbObjets):
-        l = calculerLongueurChemin(objets, i)
+        l = 1
+        contenant = objets[i]
+        while contenant > 0:
+            l += 1
+            contenant = objets[contenant-1]
         if l > lMax : lMax = l
 
     print(lMax)
@@ -30,7 +28,7 @@ if __name__ == '__main__':
     start = time.time()
     main()
     end = time.time()
-##  print("Temps d'exécution :", end-start, "ms")
+    print("Temps d'exécution :", end-start, "ms")
 
 """
 8
