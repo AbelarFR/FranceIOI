@@ -10,9 +10,10 @@
 import Control.Monad
 import Data.List
 import Data.Array.Unboxed
+import System.TimeIt
 
 main :: IO ()
-main = do
+main = timeIt $ do
     nbObjets <- readLn :: IO Int
     contenants <- fmap (listArray (1, nbObjets) . map read . words) getLine :: IO (Array Int Int)
     
