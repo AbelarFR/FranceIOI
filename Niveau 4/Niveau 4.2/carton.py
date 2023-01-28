@@ -9,14 +9,6 @@
 
 import time
 
-def listerPeres(contenants, objet):
-    liste = [objet]
-    pere = objet
-    while pere > 0:
-        pere = contenants[pere]
-        liste.insert(0, pere)
-    return liste
-
 def main():
     nbObjets = int(input())
     contenants = [0] + list(map(int, input().split()))
@@ -24,20 +16,25 @@ def main():
     nbRecherches = int(input())
     for n in range(nbRecherches):
         objet1, objet2 = map(int, input().split())
-        peres1 = listerPeres(contenants, objet1)
-        peres2 = listerPeres(contenants, objet2)
-        peres = zip(peres1, peres2)
-        for i, p in enumerate(peres):
-            if p[0] != p[1]:
-                i -= 1
-                break
-        print(peres1[i])
+
+        trace = [False]*(nbObjets+1)
+        noeud = objet1
+        trace[noeud] = True
+        while noeud > 0:
+            noeud = contenants[noeud]
+            trace[noeud] = True
+
+        noeud = objet2
+        while not trace[noeud]:
+            noeud = contenants[noeud]
+
+        print(noeud)
 
 if __name__ == '__main__':
     start = time.time()
     main()
     end = time.time()
-    print("Temps d'exécution :", end-start, "ms")
+    print("Temps d'exécution :", end-start, "s")
 
 """
 8
