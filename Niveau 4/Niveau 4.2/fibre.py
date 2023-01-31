@@ -9,15 +9,30 @@
 
 import time
 
-def explorer(arbre, dejaVu, noeud, compteur):
+# Variables globales
+resultat = 0
+
+# Compte le nombre de PC dans chaque branche qui part de 'noeud'
+# et retient le maximum.
+# Retourne le nombre de PC dans la branche dont 'noeud' est la racine.
+def compter(arbre, pere, noeud):
+    global resultat
+    compteur = 1
+    tailleBrancheMax = 0
     for voisin in arbre[noeud]:
-        if not dejaVu[voisin]:
-            dejaVu[voisin] = True
-            compteur += 1
-            compteur = explorer(arbre, dejaVu, voisin, compteur)
+        if voisin != pere:
+            tailleBranche = compter(arbre, noeud, voisin)
+            if tailleBrancheMax < tailleBranche:
+                tailleBrancheMax = tailleBranche
+            compteur += tailleBranche
+    if tailleBrancheMax < len(arbre) - compteur:
+        tailleBrancheMax = len(arbre) - compteur
+    if resultat > tailleBrancheMax:
+        resultat = tailleBrancheMax
     return compteur
 
 def main():
+    global resultat
     # Crée l'arbre
     nbNoeuds = int(input())
     voisins = [[] for _ in range(nbNoeuds)]
@@ -27,18 +42,7 @@ def main():
         voisins[noeud2].append(noeud1)
 
     resultat = nbNoeuds
-    for noeud in range(nbNoeuds):
-        dejaVu = [False]*nbNoeuds
-        dejaVu[noeud] = True
-        tailleBrancheMax = 0
-        # Compte le nombre de noeuds dans branche de chaque noeud
-        for voisin in voisins[noeud]:
-            dejaVu[voisin] = True
-            tailleBranche = explorer(voisins, dejaVu, voisin, 1)
-            if tailleBrancheMax < tailleBranche:
-                tailleBrancheMax = tailleBranche
-        if resultat > tailleBrancheMax:
-            resultat = tailleBrancheMax
+    _ = compter(voisins, -1, 0)
     print(resultat)
 
 if __name__ == '__main__':
